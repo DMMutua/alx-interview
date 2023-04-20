@@ -1,9 +1,12 @@
 #!/usr/bin/python3
+
+
 """
 A function that Implements a Representation of Pascal's Triangle
 """
 
 def pascal_triangle(n):
+    """Implements the pascal traingle algorithm"""
     if n <= 0:
         return []
 
