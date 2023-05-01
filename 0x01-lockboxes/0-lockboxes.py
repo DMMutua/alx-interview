@@ -1,7 +1,9 @@
+#!/usr/bin/python3
+
 """Solving the Lockboxes Problem """
 
 
-def canUnlockAll(boxes)
+def canUnlockAll(boxes):
     """
     A Method that Takes only List of List
     Returns bool
@@ -17,3 +19,6 @@ def canUnlockAll(boxes)
             keys.update(boxes[box])
 
     return len(unlocked) == len(boxes)
+
+if __name__ == '__main__':
+    canUnlockAll = __import__('0-lockboxes').canUnlockAll
