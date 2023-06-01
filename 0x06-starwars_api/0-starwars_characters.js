@@ -1,30 +1,31 @@
 #!/usr/bin/node
 
-const request = require('request');
+const axios = require('axios');
 
 const movieId = process.argv[2];
 const apiUrl = `https://swapi-api.alx-tools.com/api/films/${movieId}`;
 
-request(apiUrl, (error, response, body) => {
-  if (error) {
-    console.error('Error:', error);
-  } else if (response.statusCode !== 200) {
-    console.error('Status Code:', response.statusCode);
-  } else {
-    const film = JSON.parse(body);
+axios
+  .get(apiUrl)
+  .then((response) => {
+    const film = response.data;
     const characters = film.characters;
 
-    characters.forEach((characterUrl) => {
-      request(characterUrl, (error, response, body) => {
-        if (error) {
-          console.error('Error:', error);
-        } else if (response.statusCode !== 200) {
-          console.error('Status Code:', response.statusCode);
-        } else {
-          const character = JSON.parse(body);
-          console.log(character.name);
-        }
-      });
+    const characterRequests = characters.map((characterUrl) => {
+      return axios.get(characterUrl);
     });
-  }
-});
+
+    axios.all(characterRequests)
+      .then(axios.spread((...responses) => {
+        responses.forEach((response) => {
+          const character = response.data;
+          console.log(character.name);
+        });
+      }))
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  });
