@@ -1,10 +1,8 @@
 #!/usr/bin/python 3
 """A Script with a function for 2D Matrix Rotation"""
 
-from typing import List
 
-
-def rotate_2d_matrix(matrix: List[List[int]]) -> None:
+def rotate_2d_matrix(matrix):
     """ A Function that Rotates a 2D Matrix 90 Degrees In-Place.
     Assumes that the Matrix will Not Be Empty and is 2D
     """
