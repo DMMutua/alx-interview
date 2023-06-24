@@ -7,6 +7,9 @@ def island_perimeter(grid):
     In a Grid of Square Blocks of Land where 1 Reps
     Land and 2 Reps Water
     """
+    if len(grid) >= 100 or len(grid[0]) > 100:
+        raise ValueError
+
     visited = set()
 
     def dfs(i, j):
