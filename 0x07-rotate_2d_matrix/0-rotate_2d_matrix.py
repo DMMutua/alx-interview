@@ -6,13 +6,28 @@ def rotate_2d_matrix(matrix):
     """ A Function that Rotates a 2D Matrix 90 Degrees In-Place.
     Assumes that the Matrix will Not Be Empty and is 2D
     """
-    n: int = len(matrix)
+    l, r = 0, len(matrix) - 1
 
-    # Transpose the matrix
-    for i in range(n):
-        for j in range(i+1, n):
-            matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
+    while l < r:
+        for i in range(r - l):
+            top, bottom = l, r
 
-    # Reverse each row
-    for i in range(n):
-        matrix[i] = matrix[i][::-1]
+            # Saving topleft
+            topLeft = matrix[top][l + i]
+
+            # Move bottom left into top left; shifting up
+            matrix[top][l + i] = matrix[bottom - i][l]
+
+            # Move bottom right into bottom left; shifting across
+            matrix[bottom - i][l] = matrix[bottom][r - i]
+
+            # Move Top Right into bottom right
+            matrix[bottom][r - i] = matrix[top + i][r]
+
+            # Move top left into top right
+            matrix[top + i][r] = topLeft
+
+        # Move into Inner Submatrices if available..
+        r -= 1
+        l += 1
+
