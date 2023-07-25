@@ -1,55 +1,52 @@
-#!/usr/bin/env python3
-"""Solving the N Queens Challenge"""
-
+#!/usr/bin/python3
+"""Program to Solve the N Queens Problem"""
 
 import sys
 
-def is_safe(board, row, col, N):
-    """Check if a queen can be placed at the given
-    position without attacking others"""
+
+def is_safe(board, row, col):
+    """Check if a queen can be placed at the
+    given row and column without attacking others"""
     for i in range(row):
         if board[i] == col or abs(board[i] - col) == abs(i - row):
             return False
     return True
 
-def nqueens_helper(board, row, N):
-    """Helper Function"""
+
+def nqueens_util(N, row, board, solutions):
+    """Utility Function"""
     if row == N:
-        # All queens have been placed, print the solution
-        for i in range(N):
-            print("[{}, {}]".format(i, board[i]))
-        print()
+        solutions.append([[i, board[i]] for i in range(N)])
         return
 
     for col in range(N):
-        if is_safe(board, row, col, N):
+        if is_safe(board, row, col):
             board[row] = col
-            nqueens_helper(board, row + 1, N)
-            board[row] = -1  # Backtrack
+            nqueens_util(N, row + 1, board, solutions)
+
 
 def nqueens(N):
-    """Major Function to Solve Problem"""
-    if not isinstance(N, int):
+    """Main Solver Function"""
+    if not N.isdigit():
         print("N must be a number")
         sys.exit(1)
 
+    N = int(N)
     if N < 4:
         print("N must be at least 4")
         sys.exit(1)
 
     board = [-1] * N
-    nqueens_helper(board, 0, N)
+    solutions = []
+    nqueens_util(N, 0, board, solutions)
+
+    for solution in solutions:
+        print(solution)
+
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: nqueens N")
         sys.exit(1)
 
-    try:
-        N = int(sys.argv[1])
-    except ValueError:
-        print("N must be a number")
-        sys.exit(1)
-
-    nqueens(N)
-
+    nqueens(sys.argv[1])
